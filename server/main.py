@@ -33,6 +33,9 @@ def get_cache():
     finally:
         cache.close()
 
+@app.head("/health")
+def health():
+    return {"status": "ok"}
 
 @app.get("/")
 def index():
