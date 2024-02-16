@@ -9,3 +9,6 @@
 
 !static/
 !static/*
+
+!aws/
+!aws/*

@@ -70,4 +70,4 @@ def add_url(
         item = crud.create_item(db, schemas.ItemCreate(url=url, id=id))
     except HTTPException as err:
         return HTMLResponse(f"<div>error: {err.detail}</div>")
-    return HTMLResponse(f"<div>ok: {HOST}/{item.id}</div>")
+    return HTMLResponse(f"<div>ok: https://{HOST}/{item.id}</div>")
