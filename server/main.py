@@ -3,8 +3,7 @@ from typing import Annotated
 
 from redis import Redis
 from fastapi import FastAPI, Depends, Form, HTTPException
-from fastapi.responses import RedirectResponse, HTMLResponse
-from fastapi.staticfiles import StaticFiles
+from fastapi.responses import RedirectResponse, HTMLResponse, FileResponse
 from pydantic import HttpUrl
 from sqlalchemy.orm import Session
 
@@ -35,6 +34,16 @@ def get_cache():
         cache.close()
 
 
+@app.get("/")
+def index():
+    return FileResponse("./static/index.html")
+
+
+@app.get("/favicon.ico", include_in_schema=False) 
+def favicon():
+    return FileResponse("./static/favicon.ico")
+
+
 @app.get("/{id}")
 def get_url(id: str, db: Session = Depends(get_db), cache: Redis = Depends(get_cache)):
     if url := cache.get(id):
@@ -59,6 +68,3 @@ def add_url(
     except HTTPException as err:
         return HTMLResponse(f"<div>error: {err.detail}</div>")
     return HTMLResponse(f"<div>ok: {HOST}/{item.id}</div>")
-
-
-app.mount("/", StaticFiles(directory="static", html=True), name="static")
