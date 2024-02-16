@@ -1,0 +1,11 @@
+*
+
+!.gitignore
+!README.md
+
+!requirements.txt
+!server/
+!server/*.py
+
+!static/
+!static/*
